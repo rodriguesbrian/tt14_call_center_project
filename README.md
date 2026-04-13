@@ -1,33 +1,26 @@
-# TT14 - Call Center Project
+# TT14 – Data Analysis Project
 
-Um conjunto de análises de dados focadas em **eficiência operacional de call centers**, **testes A/B de e-commerce**, e **estudo sobre plataforma de livros digital** usando Python, Jupyter Notebooks, SQL e análise estatística.
+## 📌 Overview
 
-## 📋 Sumário
+Projeto de análise de dados focado em três frentes principais:
 
-- [Visão Geral](#visão-geral)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Datasets](#datasets)
-- [Análises Incluídas](#análises-incluídas)
-- [Requisitos](#requisitos)
-- [Como Usar](#como-usar)
-- [Tecnologias](#tecnologias)
-- [Visualizações](#visualizações)
+- **Eficiência operacional em Call Centers**
+- **Validação de hipóteses via A/B Testing**
+- **Exploração de dados com SQL para geração de insights de produto**
 
-## 🎯 Visão Geral
+O objetivo central foi transformar dados brutos em **decisões acionáveis**, diferenciando problemas individuais de falhas estruturais.
 
-Este projeto combina três análises principais de dados:
+---
 
-### 1. **Análise de Teste A/B (A/B Test Analysis)**
-Análise completa de um teste A/B de um sistema de recomendação em uma plataforma de e-commerce internacional. O teste compara o comportamento de usuários em dois grupos (controle e variação) ao longo do funil de compras.
+## 🎯 Principais Resultados
 
-**Período do teste:** 07/12/2020 a 01/01/2021  
-**Público:** 15% de novos usuários da região UE (6.000 participantes esperados)
+- Identificação de operadores com **desempenho estatisticamente inferior**
+- Detecção de **padrões de ineficiência ao nível de empresa**
+- Aplicação de testes estatísticos para evitar decisões baseadas em ruído
+- Desenvolvimento de dashboard para **priorização operacional**
 
-### 2. **Eficiência do Call Center**
-Identificação e análise de operadores ineficientes em um serviço de telefonia virtual usando métricas de desempenho como chamadas perdidas, tempo de espera e volume de chamadas.
+---
 
-### 3. **Queries SQL**
-Investigação sobre o acervo de plataformas de livros digitais e comportamentos de usuários.   
 ## 📁 Estrutura do Projeto
 
 ```
@@ -50,156 +43,158 @@ tt14_call_center_project/
     └── link_tableau_public.txt
 ```
 
-## 📊 Datasets
 
-### Datasets de Teste A/B
+---
 
-| Arquivo | Descrição |
-|---------|-----------|
-| `ab_project_marketing_events_us.csv` | Calendário de eventos de marketing para 2020 (campanha, datas, regiões) |
-| `final_ab_new_users_upd_us.csv` | Novos usuários cadastrados entre 07-21/12/2020 (ID, região, dispositivo) |
-| `final_ab_events_upd_us.csv` | Eventos dos usuários no período 07/12/2020 a 01/01/2021 (conversões, visualizações) |
-| `final_ab_participants_upd_us.csv` | Participantes do teste A/B com grupo de controle (A) e variação (B) |
+## 📞 Case 1: Call Center Efficiency
 
-### Datasets de Call Center
+### 🎯 Objetivo
+Identificar operadores e empresas com baixo desempenho operacional e priorizar ações corretivas.
 
-| Arquivo | Descrição |
-|---------|-----------|
-| `telecom_dataset_new.csv` | Dados de chamadas (direção, duração, perdidas, operador, etc.) |
-| `telecom_clients.csv` | Informações dos clientes (ID, plano tarifário, data de registro) |
-| `final_results_telecom.csv` | Resultados consolidados da análise de call center |
+---
 
-## 📈 Análises Incluídas
+### ⚙️ Metodologia
 
-### 1️⃣ Análise de Teste A/B (`ab_test_analysis.ipynb`)
+#### KPIs definidos
 
-**Objetivo:** Validar se o novo sistema de recomendação melhorou significativamente as conversões.
+**1. Missed Rate**
+- Percentual de chamadas inbound perdidas  
+- Comparação operador vs equipe  
+- Teste estatístico: Two-proportion Z-test  
+- Critérios:
+  - p-value < 0.05  
+  - diferença relativa ≥ 25%  
 
-**Métricas Analisadas:**
-- Visualizações de página de produto (product_page)
-- Adições ao carrinho (product_cart)
-- Compras realizadas (purchase)
-- Taxa de conversão em cada etapa do funil
-- Tamanho do efeito (lift) esperado: +10% em cada etapa
+---
 
-**Métodos Estatísticos:**
-- Testes de hipótese (t-teste, chi-square)
-- Análise de funil de conversão
-- Avaliação de significância estatística
+**2. Waiting Time**
+- Mediana do tempo de espera  
+- Teste estatístico: Mann-Whitney U  
+- Critérios:
+  - diferença estatisticamente significativa  
+  - diferença absoluta relevante  
+  - operador acima do Q3 da equipe  
 
-### 2️⃣ Eficiência do Call Center (`call_center_efficiency.ipynb`)
+---
 
-**Objetivo:** Identificar operadores ineficientes com base em critérios de desempenho.
+**3. Outbound Productivity**
+- Mediana semanal de chamadas outbound  
+- Teste estatístico: Mann-Whitney U  
+- Critérios:
+  - ≥30% abaixo da equipe  
+  - diferença absoluta mínima  
 
-**Critérios de Ineficiência:**
-- Muitas chamadas perdidas (internas ou externas)
-- Tempo de espera prolongado em chamadas entrantes
-- Volume baixo de chamadas ativas (para operadores de saída)
+---
 
-**Análises:**
-- Métricas de desempenho por operador
-- Segmentação de operadores
-- Identificação de gaps de performance
-- Recomendações de melhoria
+### 📈 Insights
 
-### 3️⃣ Análise de Plataforma de Livros - Queries SQL (`sql_queries.ipynb`)
+- Apenas uma pequena fração dos operadores apresentou falhas, mas com **alto impacto operacional**
+- Identificação de operadores com:
+  - alta taxa de chamadas perdidas  
+  - tempos de espera elevados  
+  - baixa produtividade outbound  
 
-**Contexto:** Análise de dados de uma plataforma de livros desenvolvida durante a pandemia de COVID-19 para atender à crescente demanda de serviços de leitura digital. A plataforma compila informações sobre livros, autores, editoras e avaliações de usuários.
+- Evidência de **problemas estruturais em algumas empresas**
+  - múltiplos operadores com padrões semelhantes  
+  - indica falha de gestão, não apenas desempenho individual  
 
-**Objetivo:** Gerar proposições de valor para o desenvolvimento de novo produto utilizando análise de dados de mercado competidor.
+- Um operador apresentou falha em múltiplos KPIs → **prioridade crítica**
 
-**Estrutura do Banco de Dados:**
+---
 
-| Tabela | Descrição | Campos Principais |
-|--------|-----------|------------------|
-| `books` | Livros disponíveis | `book_id`, `author_id`, `title`, `num_pages`, `publication_date`, `publisher_id` |
-| `authors` | Informações de autores | `author_id`, `author` |
-| `publishers` | Informações de editoras | `publisher_id`, `publisher` |
-| `ratings` | Classificações de usuários | `rating_id`, `book_id`, `username`, `rating` |
-| `reviews` | Revisões e comentários | `review_id`, `book_id`, `username`, `text` |
+### 💡 Implicação de Negócio
 
-**Análises SQL Incluídas:**
-- Exploração e compreensão da estrutura de dados
-- Análise de padrões de leitura e preferências de usuários
-- Identificação de livros e autores mais populares
-- Agregações de classificações e avaliações
-- Consolidação de métricas para proposição de produto
-- Limpeza, validação e transformação de dados
+Nem todo desvio estatístico é relevante.  
+A priorização deve considerar:
 
-## 🔧 Requisitos
+- volume de chamadas  
+- magnitude da diferença  
+- recorrência dentro da empresa  
 
-- Python 3.8+
-- Jupyter Notebook ou JupyterLab
-- Bibliotecas listadas em `requirements.txt`
+---
 
-## 📥 Como Usar
+## 🧪 Case 2: A/B Testing
 
-### 1. Clonar o repositório
+### 🎯 Objetivo
+Validar se um novo sistema de recomendação melhora conversões.
 
-```bash
-git clone https://github.com/seu-usuario/tt14_call_center_project.git
-cd tt14_call_center_project
-```
+---
 
-### 2. Criar ambiente virtual (opcional, mas recomendado)
+### ⚙️ Metodologia
 
-```bash
-python -m venv venv
-source venv/bin/activate  # No Windows: venv\Scripts\activate
-```
+- Análise de funil (login → product → purchase)  
+- Testes de proporção  
+- Avaliação de significância estatística  
 
-### 3. Instalar dependências
+---
 
-```bash
-pip install -r requirements.txt
-```
+### 📈 Resultado
 
-### 4. Executar Jupyter Notebook
+- Diferenças entre grupos foram avaliadas estatisticamente  
+- O teste permitiu distinguir entre:
+  - variações reais de comportamento  
+  - flutuações aleatórias  
 
-```bash
-jupyter notebook
-```
+---
 
-### 5. Abrir e executar os notebooks
+## 🧮 Case 3: SQL Analysis
 
-Navegue para a pasta `notebooks/` e abra:
-- `ab_test_analysis.ipynb` - para análise A/B
-- `call_center_efficiency.ipynb` - para eficiência do call center
-- `sql_queries.ipynb` - para queries SQL
+### 🎯 Objetivo
+Explorar dados de uma plataforma de livros para identificar oportunidades de produto.
+
+---
+
+### 📈 Principais análises
+
+- Identificação de livros e autores mais relevantes  
+- Padrões de avaliação e comportamento de usuários  
+- Consolidação de métricas para suporte a decisões de produto  
+
+---
+
+## 📊 Dashboard
+
+🔗 Tableau Public:  
+https://public.tableau.com/app/profile/brian.rodrigues5391/viz/TT14-CallCenterIneficiency/CallCenterIneficiency
+
+Inclui:
+- ranking de operadores problemáticos  
+- heatmap de falhas por KPI  
+- % de operadores ineficientes por empresa  
+
+---
 
 ## 🛠 Tecnologias
 
-| Tecnologia | Propósito |
-|-----------|----------|
-| **Python 3** | Linguagem principal |
-| **Pandas** | Manipulação e análise de dados |
-| **NumPy** | Computação numérica |
-| **SciPy** | Cálculos estatísticos avançados |
-| **Statsmodels** | Modelagem e testes estatísticos |
-| **Matplotlib & Seaborn** | Visualizações |
-| **SQLAlchemy** | ORM e conexão com bancos de dados |
-| **psycopg2** | Driver PostgreSQL |
-| **Jupyter** | Ambiente interativo de análise |
+| Tecnologia | Uso |
+|-----------|-----|
+| Python | Análise de dados |
+| Pandas | Manipulação de dados |
+| NumPy | Computação numérica |
+| SciPy | Testes estatísticos |
+| Statsmodels | Modelagem estatística |
+| Matplotlib / Seaborn | Visualização |
+| SQL | Consulta e exploração de dados |
+| Tableau | Dashboard interativo |
 
-## 📊 Visualizações
+---
 
-As análises incluem dashboards e visualizações no Tableau Public:
+## ⚠️ Limitações
 
-🔗 **[Dashboard de Eficiência do Call Center](https://public.tableau.com/app/profile/brian.rodrigues5391/viz/TT14-CallCenterIneficiency/CallCenterIneficiency)**
+- Análise baseada em janela temporal específica  
+- Dependência de volume mínimo por operador  
+- Ausência de análise temporal (tendência ao longo do tempo)  
 
-## 📝 Notas Importantes
+---
 
-- Os dados contêm informações de períodos específicos (dezembro 2020-janeiro 2021)
-- As análises utilizadas foram validadas com testes estatísticos rigorosos
-- Todos os arquivos CSV devem ser mantidos na pasta `datasets/`
-- Recomenda-se usar a versão mais recente das dependências do `requirements.txt`
+## 🚀 Próximos Passos
+
+- Construção de pipeline automatizado (ETL → análise → output)  
+- Inclusão de análise temporal de desempenho  
+- Tradução dos resultados em impacto financeiro  
+
+---
 
 ## 👨‍💻 Autor
 
 Brian Rodrigues
-
-## 📄 Licença
-
-Este projeto é fornecido como está para fins educacionais e comerciais autorizados.
-
----
